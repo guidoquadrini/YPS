@@ -21,40 +21,7 @@
     </head>
     <body>  
         <?php echo $top_menu; ?>
-    <!-- Inicia Menu Lateral -->
-        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-            <span class="estilo_menu" id="showLeft"></span>
-            <h3>Aplicativos</h3>
-
-            <?php
-            //Carga Menu Lateral
-            $select = "SELECT * FROM menu WHERE nivel = 0;";
-            //$resultado = cmdDB($select);
-            //$datos = (array) ($resultado['Datos']);
-            echo '<ul class="accordion">';
-            //foreach ($datos as $row) {
-                ?>
-
-
-                <li id="<?php //echo $row->idmenu; ?>" class="files"> 
-                    <a href=<?php //echo $row->url; ?> title="<?php //echo $row->descripcion; ?>"><span><?php //echo substr(($row->idmenu), 0, 1); ?></span><?php //echo $row->nombre; ?></a> 
-                    <ul class="sub-menu">
-                        <?php
-                        //$select2 = "SELECT * FROM menu WHERE nivel = " . $row->idmenu . ";";
-                        //$resultado2 = cmdDB($select2);
-                        //$datos2 = (array) ($resultado2['Datos']);
-                        //foreach ($datos2 as $row2) {
-                            ?>
-                            <li><a id="<?php //echo $row2->idmenu; ?>" href=<?php //echo $row2->url; ?> onclick=" <?php //echo $row2->onclick; ?>"><em><?php //echo $row2->idmenu; ?></em>
-                                    <?php //echo $row2->nombre; ?><span></span></a></li>
-                        <?php //}; ?>             
-                    </ul> </li> 
-
-            <?php //}; ?>
-        </ul>   
-    </nav>
-    <!-- Fin Menu Lateral -->
-
+    <?= $menu_lateral;?>
     <div class="container">                   
                        
         <div id ="mensaje"></div>        

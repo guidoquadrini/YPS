@@ -11,7 +11,7 @@ abstract class Usuario
 
 	private $apellido;
 	private $ciudad;
-	private $contraseña;
+	private $contraseÃ±a;
 	private $cp;
 	private $direccion;
 	private $dni;
@@ -37,9 +37,6 @@ abstract class Usuario
 	{
 	}
 
-	public function __destroy()
-	{
-	}
+	
 
 }
-?>

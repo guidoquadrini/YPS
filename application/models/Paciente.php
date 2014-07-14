@@ -15,8 +15,8 @@ class Paciente extends Usuario
 	private $idPaciente;
 	private $tpoUsuario;
 	public $m_Turno;
-	public $m_Historia
-	public $m_Historia Clinica; Clinica;
+	public $m_Historia;
+	public $m_Historia_Clinica;
 
 	function __destruct()
 	{
@@ -28,9 +28,6 @@ class Paciente extends Usuario
 	{
 	}
 
-	public function __destroy()
-	{
-	}
+	
 
 }
-?>

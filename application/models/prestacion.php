@@ -1,7 +1,7 @@
 <?php
 require_once ('Turno.php');
 require_once ('Billetera.php');
-require_once ('Historia Clinica.php');
+require_once ('Historia_Clinica.php');
 
 /**
  * @author Sibarita
@@ -17,7 +17,7 @@ class prestacion
 	private $TpoConsulta;
 	public $m_Turno;
 	public $m_Billetera;
-	public $m_Historia Clinica;
+	public $m_Historia_Clinica;
 
 	function __destruct()
 	{
@@ -33,9 +33,7 @@ class prestacion
 	{
 	}
 
-	public function __destroy()
-	{
-	}
+	
 
 	private function _descripcionConsulta()
 	{
