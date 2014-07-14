@@ -1,0 +1,345 @@
+/* General styles for all menus */
+.cbp-spmenu {
+	background: #47a3da;
+	position: fixed;
+}
+
+.cbp-spmenu h3 {
+	color: #fff;
+	font-size: 1.9em;
+	padding: 20px;
+	margin: 0;
+        margin-top: 50px;
+	font-weight: 300;
+	background: #0d77b6;
+}
+
+.cbp-spmenu a {
+	display: block;
+	color: #fff;
+	font-size: 1.1em;
+	font-weight: 300;
+}
+
+.cbp-spmenu a:hover {
+	background: #258ecd;
+}
+
+.cbp-spmenu a:active {
+	background: #afdefa;
+	color: #47a3da;
+}
+
+/* Orientation-dependent styles for the content of the menu */
+
+.cbp-spmenu-vertical {
+	width: 240px;
+	height: 100%;
+	top: 0;
+	z-index: 1000;
+}
+
+.cbp-spmenu-vertical a {
+	border-bottom: 1px solid #258ecd;
+	padding: 1em;
+}
+
+.cbp-spmenu-horizontal {
+	width: 100%;
+	height: 150px;
+	left: 0;
+	z-index: 1000;
+	overflow: hidden;
+}
+
+.cbp-spmenu-horizontal h3 {
+	height: 100%;
+	width: 20%;
+	float: left;
+}
+
+.cbp-spmenu-horizontal a {
+	float: left;
+	width: 20%;
+	padding: 0.8em;
+	border-left: 1px solid #258ecd;
+}
+
+/* Vertical menu that slides from the left or right */
+.estilo_menu{
+                background: url(../../../images/views/main/showmenu.png) no-repeat;
+                
+                width: 45px;
+                height: 158px;
+                position: fixed;
+                top:40%;
+                left:0px;
+                z-index: 10;
+            }
+.estilo_menu.cerrar{
+    background: url(../../../images/views/main/hidemenu.png) no-repeat;
+    left:230px;
+}
+.cbp-spmenu-left {
+	left: -240px;
+}
+
+.cbp-spmenu-right {
+	right: -240px;
+}
+
+.cbp-spmenu-left.cbp-spmenu-open {
+	left: 0px;
+}
+
+.cbp-spmenu-right.cbp-spmenu-open {
+	right: 0px;
+}
+
+/* Horizontal menu that slides from the top or bottom */
+
+.cbp-spmenu-top {
+	top: -150px;
+}
+
+.cbp-spmenu-bottom {
+	bottom: -150px;
+}
+
+.cbp-spmenu-top.cbp-spmenu-open {
+	top: 0px;
+}
+
+.cbp-spmenu-bottom.cbp-spmenu-open {
+	bottom: 0px;
+}
+
+/* Push classes applied to the body */
+
+.cbp-spmenu-push {
+	overflow-x: hidden;
+	position: relative;
+	left: 0;
+}
+
+.cbp-spmenu-push-toright {
+	left: 240px;
+}
+
+.cbp-spmenu-push-toleft {
+	left: -240px;
+}
+
+/* Transitions */
+
+.cbp-spmenu,
+.cbp-spmenu-push, 
+.estilo_menu{
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Example media queries */
+
+@media screen and (max-width: 55.1875em){
+
+	.cbp-spmenu-horizontal {
+		font-size: 75%;
+		height: 110px;
+	}
+
+	.cbp-spmenu-top {
+		top: -110px;
+	}
+
+	.cbp-spmenu-bottom {
+		bottom: -110px;
+	}
+
+}
+
+@media screen and (max-height: 26.375em){
+
+	.cbp-spmenu-vertical {
+		font-size: 90%;
+		width: 190px;
+	}
+
+	.cbp-spmenu-left,
+	.cbp-spmenu-push-toleft {
+		left: -190px;
+	}
+
+	.cbp-spmenu-right {
+		right: -190px;
+	}
+
+	.cbp-spmenu-push-toright {
+		left: 190px;
+	}
+}
+
+
+/*ESTILO ACORDION MENU LATERAL*/
+
+.accordion,
+.accordion ul,
+.accordion li,
+.accordion a,
+.accordion span {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+ 
+.accordion li {
+    list-style: none;
+}
+
+.accordion li > a {
+    display: block;
+    position: relative;
+    min-width: 110px;
+    padding: 3px 10px 3px 40px;
+ 
+    color: #2a6496;
+    font: bold 12px/32px Arial, sans-serif;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px rgba(0,0,0, .35);
+ 
+    background: #6c6e74;
+    background: -moz-linear-gradient(top, #fff 90%,#aaa 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(90%,#fff), color-stop(100%,#aaa));
+    background: -webkit-linear-gradient(top, #fff 90%,#aaa 100%);
+    background: -o-linear-gradient(top, #fff 90%,#aaa 100%);
+    background: -ms-linear-gradient(top, #fff 90%,#aaa 100%);
+    background: linear-gradient(top, #fff 90%,#aaa 100%);
+ 
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+    -moz-box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+    box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+}
+
+.accordion li > a span {
+    display: block;
+    position: absolute;
+    top: 7px;
+    right: 0;
+    padding: 0 10px;
+    margin-right: 10px;
+ 
+    font: normal bold 12px/18px Arial, sans-serif;
+    background: #F1F1F1;
+ 
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+ 
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0, .2), 1px 1px 1px rgba(255,255,255, .1);
+    -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0, .2), 1px 1px 1px rgba(255,255,255, .1);
+    box-shadow: inset 1px 1px 1px rgba(0,0,0, .2), 1px 1px 1px rgba(255,255,255, .1);
+}
+
+.accordion > li > a:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 4px 8px;
+ 
+    background-repeat: no-repeat;
+    background-image: url(../../../images/views/main/icons.png);
+    background-position: 0px 0px;
+}
+
+.accordion li.files > a:before { background-position: 0px 0px; }
+.accordion li.files:hover > a:before,
+.accordion li.files:target > a:before,
+.accordion li.files > a.active:before { background-position: 0px -24px; }
+ 
+.accordion li.mail > a:before { background-position: -24px 0px; }
+.accordion li.mail:hover > a:before,
+.accordion li.mail:target > a:before,
+.accordion li.mail > a.active:before { background-position: -24px -24px; }
+ 
+.accordion li.cloud > a:before { background-position: -48px 0px; }
+.accordion li.cloud:hover > a:before,
+.accordion li.cloud:target > a:before,
+.accordion li.cloud > a.active:before { background-position: -48px -24px; }
+ 
+.accordion li.sign > a:before { background-position: -72px 0px; }
+.accordion li.sign:hover > a:before,
+.accordion li.sign:target > a:before,
+.accordion li.sign > a.active:before { background-position: -72px -24px; }
+
+.sub-menu li a {
+    color: #797979;
+    text-shadow: 1px 1px 0px rgba(255,255,255, .2);
+ 
+    background: #e5e5e5;
+    border-bottom: 1px solid #c9c9c9;
+ 
+    -webkit-box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+    -moz-box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+    box-shadow: inset 0px 1px 0px 0px rgba(255,255,255, .1), 0px 1px 0px 0px rgba(0,0,0, .1);
+}
+ 
+.sub-menu li:last-child a { border: none; }
+ 
+.sub-menu li > a span {
+    color: #797979;
+    text-shadow: 1px 1px 0px rgba(255,255,255, .2);
+    background: transparent;
+    border: 1px solid #c9c9c9;
+ 
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+ 
+.sub-menu em {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 14px;
+    color: #a6a6a6;
+    font: normal 10px/32px Arial, sans-serif;
+}
+
+.accordion > li:hover > a,
+.accordion > li:target > a,
+.accordion > li > a.active {
+    color: #3e5706;
+    text-shadow: 1px 1px 1px rgba(255,255,255, .2);
+ 
+    /*background: url(../img/active.png) repeat-x;*/
+    background: #a5cd4e;
+    background: -moz-linear-gradient(top, #fff 90%,#47A3DA 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(9%,#fff), color-stop(100%,#47a3da));
+    background: -webkit-linear-gradient(top, #fff 90%,#47A3DA 100%);
+    background: -o-linear-gradient(top, #fff 90%,#47A3DA 100%);
+    background: -ms-linear-gradient(top, #fff 90%,#47A3DA 100%);
+    background: linear-gradient(top, #fff 90%,#47A3DA 100%);
+}
+ 
+.accordion > li:hover > a span,
+.accordion > li:target > a span,
+.accordion > li > a.active span {
+    color: #fdfdfd;
+    text-shadow: 0px 1px 0px rgba(0,0,0, .35);
+    background: #428bca;
+}
+ 
+.sub-menu li:hover a { background: #efefef; }
+
+.accordion li > .sub-menu {
+    display:none;
+}
+ 
+.accordion li:target > .sub-menu {
+    display:none;
+}

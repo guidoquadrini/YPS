@@ -5,18 +5,18 @@
     <ul class="accordion">
         <?php
         //Carga Menu Lateral
-        foreach ($menu_lateral as $item) {
+        foreach ($menu as $item) {
             ?>
-            <li id="<?= $row->idmenu; ?>" class="files"> 
-                <a href=<?= $row->url; ?> title="<?= $row->descripcion; ?>">
-                    <span><?= substr(($row->idmenu), 0, 1); ?></span><?= $row->nombre; ?>
+            <li id="<?= $item['idmenu']; ?>" class="files"> 
+                <a href="" title="<?= $item['descripcion']; ?>">
+                    <span><?= substr(($item['idmenu']), 0, 1); ?> </span><?= $item['nombre']; ?>
                 </a> 
                 <ul class="sub-menu">
                     <?php
-                    foreach ($datos['idmenu'] as $subitem) {
+                    foreach ($item['hijos'] as $subitem) {
                         ?>
-                        <li><a id="<?= $subitem->idmenu; ?>" href=<?= $subitem->url; ?> onclick="<?= $subitem->onclick; ?>"><em><?= $subitem->idmenu; ?></em>
-                        <?= $subitem->nombre; ?><span></span></a></li>
+                        <li><a id="<?= $subitem['idmenu']; ?>" href="<?= $subitem['url']; ?>" onclick="<?= $subitem['onclick']; ?>"><em><?= $subitem['idmenu']; ?></em>
+                        <?= $subitem['nombre']; ?><span></span></a></li>
     <?php }; ?>             
                 </ul> </li> 
 
