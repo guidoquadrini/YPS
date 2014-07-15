@@ -25,8 +25,8 @@
         <!-- Stack the columns on mobile by making one full-width and the other half-width -->
         <div id="CuerpoPagina" >
             <div class="page-header">
-<!--                <h4>Tablero de Control </h4>
-                <em><small>Aqui podra visualizar todos los valores significativos del sistema.</small></em>-->
+               <h4>Yerpa Pro Salud</h4>
+                <em><small>Sistema de asistencia para Profesionales de la Salud.</small></em>
             </div>
             <div class="row"></div>
             <!-- Optional: clear the XS cols if their content doesn't match in height -->

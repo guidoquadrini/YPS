@@ -18,14 +18,14 @@
                     </a>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2">
+<!--                <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav navbar-left">
                         <ol class="breadcrumb">Ubicacion:
                             <li><a href="#">Gestor de Pacientes</a></li>
                             <li><a class="active">Listado de Pacientes</a></li>
                         </ol>
                     </ul>
-                </div>
+                </div>-->
 
             </div>
         </nav>

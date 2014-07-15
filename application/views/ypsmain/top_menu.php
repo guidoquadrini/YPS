@@ -25,7 +25,6 @@
                         <li class="active"><a href="#">Configuracion</a></li>    
                         <?php }?>
                         
-                        <li><a href="#about">Alertas</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ayuda <b class="caret"></b></a>
                             <ul class="dropdown-menu">

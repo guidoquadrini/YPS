@@ -14,10 +14,10 @@ class Ypsmain extends YPS_Controller {
         $usuario = $this->usuarios->obtenerUsuario( NULL , ['id' => $this->user->id], 'object');
         
         $this->load->model('menu', 'menu_uno');
-        $menu_filtrado = $this->menu_uno->get_tree('profesional');// Rol de Filtrado.
-        echo '<pre>';
-        print_r($usuario);
-        exit();
+        $menu_filtrado = $this->menu_uno->get_tree('paciente');// Rol de Filtrado.
+//        echo '<pre>';
+//        print_r($usuario);
+//        exit();
             
         $vistas = [
             'top_menu' => $this->load->view('ypsmain/top_menu',  $usuario[0],TRUE),
