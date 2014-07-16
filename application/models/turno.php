@@ -6,7 +6,7 @@
  * @version 1.0
  * @created 03-jul-2014 10:02:53 a.m.
  */
-class Turno
+class Turno extends CI_Model
 {
 
 	private $Asistio;
@@ -57,8 +57,12 @@ class Turno
 	{
 	}
 
-	private function _profesional()
+//	private function _profesional($pro)
+       	public function _profesional($pro)
+
 	{
+            $this->IdProfesional = $pro;
+            return true;
 	}
 
 	private function _fecha_hora()

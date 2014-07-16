@@ -11,7 +11,7 @@
       style="background:white; margin-top: 25px; box-shadow: 0em 0em 10em black;
       width:350px; margin: 50px auto; padding:20px;" 
       role="form">
-    <img style="float:left;padding-right:15px;" src="<?php echo $img . 'botiquin.jpg' ?>">
+    <!--img style="float:left;padding-right:15px;" src="<!?php echo $img . 'botiquin.jpg' ?>">-->
     <h2 class="form-signin-heading" style="margin-top:0px; font-family: 'Gloria Hallelujah', cursive !important; ">Sacar turno</h2>
     <fieldset>
         <div id="form_nuevo">
@@ -37,13 +37,15 @@
                 <?=
                 form_button('btn_cancelar', 'Cancelar', 'class="btn btn-lg btn-danger" onclick="window.history.back(-1)"')
                 ?>
-                <?=
-                form_button([
-                    'content' => 'Aceptar',
-                    'type' => 'submit',
-                    'class' => 'btn btn-lg btn-primary'
-                ])
-                ?>
+                
+                <input type="button"  class="btn btn-lg btn-primary" value="Aceptar" onclick="window.location=('sacar_turno/frm_fechas')"/>
+                <!--?=
+//                form_button([
+//                    'content' => 'Aceptar',
+//                    'type' => 'submit',
+//                    'class' => 'btn btn-lg btn-primary'
+//                ])
+//                ?-->
             </div>
         </div>
     </fieldset>

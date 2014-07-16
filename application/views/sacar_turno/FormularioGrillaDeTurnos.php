@@ -93,27 +93,28 @@
                         $('#HorTurnoFin').val(FecHorFin[1]); //Hora de finalizacion por defecto.                            
                     },
                     eventClick: function(event) {
-                        limpiaEventoDetalle;
-                        $.ajax({
-                            type: "POST",
-                            url: "Turnos/BuscarEvento.php",
-                            data: "&id=" + event.id,
-                            success: function(evento) {
-                                temp = JSON.parse(evento);
-                                $("#idEventoDetalle").html(temp.id);
-                                $("#TituloEventoDetalle").html(temp.titulo);
-                                $("#ProEventoDetalle").html(temp.Pro);
-                                $("#EspEventoDetalle").html(temp.Esp);
-                                $("#OSEventoDetalle").html(temp.OS);
-                                $("#TpoConsEventoDetalle").html(temp.TpoCons);
-                                $("#PrecioEventoDetalle").html(temp.Precio.toString());
-                                $("#FecEventoDetalle").html(temp.Fec.toString());
-                                $("#HorIniEventoDetalle").html(temp.HorIni.toString());
-                                $("#HorFinEventoDetalle").html(temp.HorFin.toString());
-                                $("#ObsEventoDetalle").html(temp.Obs);
-                            }
-                        });
-                        $('#ModalEventoShow').modal('show');
+                        window.location="sacar_turno/RegistroDeTurno"
+//                        limpiaEventoDetalle;
+//                        $.ajax({
+//                            type: "POST",
+//                            url: "Turnos/BuscarEvento.php",
+//                            data: "&id=" + event.id,
+//                            success: function(evento) {
+//                                temp = JSON.parse(evento);
+//                                $("#idEventoDetalle").html(temp.id);
+//                                $("#TituloEventoDetalle").html(temp.titulo);
+//                                $("#ProEventoDetalle").html(temp.Pro);
+//                                $("#EspEventoDetalle").html(temp.Esp);
+//                                $("#OSEventoDetalle").html(temp.OS);
+//                                $("#TpoConsEventoDetalle").html(temp.TpoCons);
+//                                $("#PrecioEventoDetalle").html(temp.Precio.toString());
+//                                $("#FecEventoDetalle").html(temp.Fec.toString());
+//                                $("#HorIniEventoDetalle").html(temp.HorIni.toString());
+//                                $("#HorFinEventoDetalle").html(temp.HorFin.toString());
+//                                $("#ObsEventoDetalle").html(temp.Obs);
+//                            }
+//                        });
+//                        $('#ModalEventoShow').modal('show');
                     },
                     eventSources:
                             [

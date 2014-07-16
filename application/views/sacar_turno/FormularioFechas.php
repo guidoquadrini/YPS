@@ -34,15 +34,17 @@
                         <br>            
                         <div style="float:right;">
                             <?=
-                            form_button('btn_cancelar', 'Cancelar', 'class="btn btn-lg btn-danger" onclick="window.history.back(-1)"')
+                            form_button('btn_cancelar', 'Cancelar', 'class="btn btn-lg btn-danger" onclick="window.location=\'/yps/index.php\'"')
                             ?>
-                            <?=
+                                            <input type="button"  class="btn btn-lg btn-primary" value="Aceptar" onclick="window.location=('/sacar_turno/frm_grilla')"/>
+
+                            <!--?=
                             form_button([
                                 'content' => 'Aceptar',
                                 'type' => 'submit',
                                 'class' => 'btn btn-lg btn-primary'
                             ])
-                            ?>
+                            ?-->
                         </div>
                     </fieldset>
                 </form>
