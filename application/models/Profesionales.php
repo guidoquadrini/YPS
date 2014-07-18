@@ -5,54 +5,43 @@
  * @version 1.0
  * @created 03-jul-2014 11:40:32 a.m.
  */
-class Profesionales extends CI_Model
-{
+class Profesionales extends CI_Model {
 
-	public $col_profesinoal=[];
-	function __construct()
-	{
+    public $col_profesional = [];
+
+    function __construct() {
         parent::__construct();
-        $this->load->model('profesional');
-	}
+        $this->load->model('profesional', 'm_pro'); //Levantamos el modelo profesionales
+    }
 
-	function __destruct()
-	{
-            
-	}
-
-	public function listar_profesionales()
-                
-	{
-                    $this->load->model('profesional','m_pro');
-
-        $col_profesional = new stdClass();
-        $temporal= obtenerProfesional('','','object');
-        $i++;
-        foreach ($temporal as $prof){
-            $this->m_pro->__contruct$prof; // Aqui deberia hacerse asignacion uno a uno con los campos de la clase prof.
-            $col_profesional[$i]=$i_prof;
-            $i++;
-        }
-        return $col_profesional;
-	}
+    function __destruct() {
         
-        public function obtenerProfesional($select=null, $where=null, $fetch=null)
-        {
-            if (is_array($select))
-            {
-                $this->db->select($select);
-            }
-            if (is_array($where))
-            {
-                $this->db->where($where);
-            }
-            if ($fetch == 'object')
-            {
-                return $this->db->get('Usuarios')->result();
-            }
-            return $this->db->get('Usiarios')->result_array();
-            
+    }
+
+    public function obtenerProfesionales($select = null, $where = null, $fetch = null) {
+        if (is_array($select)) {
+            $this->db->select($select);
         }
+        if (is_array($where)) {
+            $this->db->where($where);
+        }
+        if ($fetch == 'object') {
+            return $this->db->get('profespecialidad')->result();
+        }
+        return $this->db->get('profespecialidad')->result_array();
+    }
+
+    public function listar_profesionales() {
+        milog('Modelo -> Clase Profesionales -> Ejecuta Metodo lista_profesionales()');
+        $temporal = $this->obtenerProfesionales('', '', 'object'); //Consultar todos los profesionales
+        foreach ($temporal as $prof) { //Iniciar un bucle
+            $t_pro = new Profesional; //Instanciar un profesional
+            $t_pro->cargar_profesional($prof->idProfesional); //Cargar modelo profesional con datos
+            array_push($this->col_profesional, $t_pro); //Poner al profesional en el arreglo            
+        }//Cerrar bucle
+        return $this->col_profesional; //Retornar el listado de profesionales                 
+    }
 
 }
+
 ?>

@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="<?php echo $js . 'bootstrap.min.js';?>"></script>
+<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
 <form action="http://localhost/yps/index.php/users/login" method="post"       
       accept-charset="utf-8" id='login_form' class="form-signin" 
       style="background:white; margin-top: 25px; box-shadow: 0em 0em 10em black;

@@ -7,49 +7,63 @@
     <link href="<?php echo $css . 'bootstrap.css'; ?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen"
           href="<?php echo $css . 'datepicker3.css'; ?>">
-
+    <script src="<?php echo $js . 'jquery-2.1.1.js'; ?>"></script>
+    <script type="text/javascript" src="<?php echo $js . 'bootstrap.js' ?>"></script>
     <body style="¨position:absolute;">
         <div class="container-fluid">
             <div class="row">
-                <form action="http://localhost/yps/index.php/users/login" method="post"       
-                      accept-charset="utf-8" id='login_form' class="form-signin" 
+                <form action="http://localhost/yps/index.php/sacar_turno" method="post"       
+                      accept-charset="utf-8" class="form-signin" 
                       style="background:white; margin-top: 25px; box-shadow: 0em 0em 10em black;
                       width:350px; margin: 50px auto; padding:20px;" 
-                      role="form">
+                      role="form" name="frm_profesioanels" id="frm_profesionales">
                     <img style="float:left;padding-right:15px;" src="<?php echo $img . 'botiquin.jpg' ?>">
                     <h2 class="form-signin-heading" style="margin-top:0px; font-family: 'Gloria Hallelujah', cursive !important; ">Sacar turno</h2>
                     <fieldset>
                         <div id="form_nuevo">
                             <legend class="form-signin-heading" style="margin-top:0px; font-family: 'Gloria Hallelujah', cursive !important; ">Seleccione una fecha deseada:</legend>
                             <?= form_label('Fecha del Turno:', 'cbo_fecha'); ?>
-                            <div> 
-                                <input STYLE="width:100%;" type="date"/>                            </div>
-                        </div>  
-
+                            <div><input id="input_fecha_turno" style="width:100%;" type="date"/></div>
+                        </div> 
                         <?php echo form_error('cbo_fechas'); ?>
-
-
-
-
                         <br>            
                         <div style="float:right;">
-                            <?=
-                            form_button('btn_cancelar', 'Cancelar', 'class="btn btn-lg btn-danger" onclick="window.location=\'/yps/index.php\'"')
-                            ?>
-                                            <input type="button"  class="btn btn-lg btn-primary" value="Aceptar" onclick="window.location=('/sacar_turno/frm_grilla')"/>
-
-                            <!--?=
-                            form_button([
-                                'content' => 'Aceptar',
-                                'type' => 'submit',
-                                'class' => 'btn btn-lg btn-primary'
-                            ])
-                            ?-->
+                            <input type="hidden"  id="estado" name="estado"/>
+                            <input type="button"  class="btn btn-lg btn-danger"  value="Volver"   id="btn_volver" />
+                            <input type="button"  class="btn btn-lg btn-danger"  value="Cancelar" id="btn_cancelar"/>
+                            <input type="button"  class="btn btn-lg btn-primary" value="Aceptar"  id="btn_guardar" disabled/>
                         </div>
                     </fieldset>
                 </form>
             </div>
         </div>
-    </body></html>
-<script type="text/javascript" src="<?php echo $js . 'jquery-1.11.0.min.js' ?>"></script>
-<script type="text/javascript"        src="<?php echo $js . 'bootstrap.js' ?>"></script>
+        <script>
+            $(document).ready(function() {
+
+                $("#input_fecha_turno").on('change', function() {
+                    $("#btn_guardar").removeAttr("disabled");
+                });
+
+                $("#btn_guardar").click(function() {
+                    estado(2);
+                    $("#frm_profesionales").submit();
+                });
+
+                $("#btn_volver").click(function() {
+                    estado(0);
+                    $("#frm_profesionales").submit();
+                });
+
+                $("#btn_cancelar").click(function() {
+                    estado(0);
+                    window.location = '../../index.php';
+                });
+            });
+            function estado(estado) {
+                $("#estado").val(estado);
+            }
+        </script>
+
+    </body>
+</html>
+
