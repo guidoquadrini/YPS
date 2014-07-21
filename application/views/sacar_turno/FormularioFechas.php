@@ -23,7 +23,7 @@
                         <div id="form_nuevo">
                             <legend class="form-signin-heading" style="margin-top:0px; font-family: 'Gloria Hallelujah', cursive !important; ">Seleccione una fecha deseada:</legend>
                             <?= form_label('Fecha del Turno:', 'cbo_fecha'); ?>
-                            <div><input id="input_fecha_turno" style="width:100%;" type="date"/></div>
+                            <div><input name="input_fecha_turno" id="input_fecha_turno" style="width:100%;" type="date"/></div>
                         </div> 
                         <?php echo form_error('cbo_fechas'); ?>
                         <br>            

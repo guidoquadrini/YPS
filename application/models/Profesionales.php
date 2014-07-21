@@ -44,4 +44,3 @@ class Profesionales extends CI_Model {
 
 }
 
-?>
