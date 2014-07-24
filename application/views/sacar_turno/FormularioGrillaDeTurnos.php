@@ -238,7 +238,7 @@
                 });
 
                 $("#btn_volver").click(function() {
-                    estado(0);
+                    estado(1);
                     $("#frm_grilla").submit();
                 });
 

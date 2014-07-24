@@ -69,23 +69,19 @@ class Turnos extends CI_Model {
         return $this->col_Turnos; //Retornar el listado de turnos                 
     }
 
-    public function ultima_obrasocial_utilizada($id)
-    {
+    public function ultima_obrasocial_utilizada($id)    {
         //echo "<pre>";print_r($this->col_Turnos != null);exit();
-        if ($this->col_Turnos != null)
-        {
+        if ($this->col_Turnos != null)        {
             $coleccion = null;
             $coleccion = [];
             foreach ($this->col_Turnos as $turno)
             {
 
-                if ($turno->IdPaciente == $id)
-                {
+                if ($turno->IdPaciente == $id)                {
                     array_push($coleccion, $turno);
                 }
             }
-            if ($coleccion != null)
-            {
+            if ($coleccion != null)            {
                 //echo "Coleccion distinta de null";
                 //echo "<br>";
                 $buscado = null;
@@ -97,9 +93,10 @@ class Turnos extends CI_Model {
                 for ($i = 0; $i < (count($coleccion)); $i++)
                 {
                     //echo "valor de i: " . $i;
-                    If ($i == 0){
+                    If ($i == 0)
+                    {
                         //echo "<br>";
-                       // echo "entro";
+                        // echo "entro";
                         //echo "<br>";
                         $buscado = null;
                         $buscado = $coleccion[0];
@@ -118,6 +115,7 @@ class Turnos extends CI_Model {
                 return $buscado->IdObraSocial;
             }
         }
+        return 2;//Efectivo
     }
 
 // pasar cada turno al objeto turno

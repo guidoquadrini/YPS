@@ -34,10 +34,20 @@ class Sacar_turno extends CI_Controller {
             case "3"://Ya selecciono el turno.
                 $this->frm_registro();
                 break;
+            case "4":                
+                $this->frm_guardar_turno();
+                $this->frm_notificar_paciente();
+                $this->frm_resumen_transaccion();
             default :
                 $this->frm_profesionales();
                 break;
         }
+    }
+    
+    public function frm_guardar_turno(){
+    $this->session->userdata('turno_obra_social') = $this->input->post('cbo_obra_social');
+    $this->load->model('turno');
+    $this->turno->registrar_turno();
     }
 
     public function frm_profesionales()
@@ -88,14 +98,16 @@ class Sacar_turno extends CI_Controller {
     {
         $this->session->userdata['turno_profesional']=50;//Simulacion de usuario logoneado nro 2.
         $this->session->userdata['user_id']=2;//Simulacion de usuario logoneado nro 2.
-//        echo "<pre>";print_r($this->session->userdata);
+        $_POST['fecha_hora'] = '1982-11-06T08:16:00';
         
+//      echo "<pre>";print_r($this->session->userdata);
+        $this->session->userdata['turno_fecha_hora']=  $this->input->post('fecha_hora');
         $this->load->model('Obras_Sociales', 'cat_obrassociales');
         $this->load->model('turnos', 'cat_turnos');//Carga Modelo
         $this->load->model('Profesionales', 'cat_profesionales');
         $this->load->model('Pacientes', 'cat_pacientes');
         $this->cat_turnos->listar_turnos();//Carga Catalogo.
-        $_POST['fecha_hora'] = '1982-11-06T08:16:00';//
+        
         $fecha_hora = $this->input->post('fecha_hora');
 //        echo "<pre>";print_r($fecha_hora);echo "<br>";
         $obras_sociales = $this->cat_obrassociales->listar_obras_sociales();
@@ -108,16 +120,13 @@ class Sacar_turno extends CI_Controller {
 //        echo "ID_PACIENTE: <pre>";print_r($this->session->userdata['user_id']);echo "<br>";
         $paciente = $this->cat_pacientes->buscar_paciente($this->session->userdata['user_id']);
         //echo "<pre>";print_r($paciente);exit();
-        $datos = ['turno' => [
+        $datos =  [
         'profesional' => $profesional,
         'paciente' => $paciente,
-        'obrasociales' => $obras_sociales,
+        'obras_sociales' => $obras_sociales,
         'id_ultima_obra_social' => $idObraSocial,
         'fecha_turno' => $fecha_hora        
-        ]];
-        //echo "<pre>";print_r($datos);exit();
-
-
+        ];
         $this->load->view('sacar_turno/FormularioRegistroDeTurnos', $datos);
     }
 
