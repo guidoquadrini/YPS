@@ -14,7 +14,6 @@
         <script src="<?php echo $base_cal . 'lib/jquery-ui.custom.min.js' ?>"></script>
         <script src="<?php echo $base_cal . 'fullcalendar.js' ?>"></script>
         <script src="<?php echo $base_cal . '/lang/es.js' ?>"></script>
-
         <script>
             function renderCalendar() {
                 var date = new Date();
@@ -40,60 +39,79 @@
                     maxTime: '20:00',
                     timezone: 'local',
                     defaultView: 'agendaWeek',
-                    defaultDate: y + '-' + m + '-' + d,
+                    defaultDate: '<?= $fecha; ?>',
                     fistDay: 1,
                     //weekends: false,
                     // hiddenDays: diasLaborales, // hide Tuesdays and Thursdays
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     selectable: true,
                     selectHelper: true,
+                    slotEventOverlap: false,
                     lang: 'es',
-                    droppable: true, // this allows things to be dropped onto the calendar !!!
-                    eventDrop: function(event) {
-
-                        var FecHorIni = fechaHora(event.start);
-                        var FecHorFin = fechaHora(event.end);
-                        var start = FecHorIni[0] + ' ' + FecHorIni[1];
-                        var end = FecHorFin[0] + ' ' + FecHorFin[1];
-
-                        $.ajax({
-                            url: 'Turnos/DropTurno.php',
-                            data: 'start=' + start + '&end=' + end + '&id=' + event.id,
-                            type: "POST",
-                            success: function(json) {
-                                console.log(json);
-                                mensaje('info', "Evento actualizado correctamente...", 2000)
-                            }
-                        })
-                    },
-                    eventResize: function(event) {
-                        var FecHorIni = fechaHora(event.start);
-                        var FecHorFin = fechaHora(event.end);
-                        var start = FecHorIni[0] + ' ' + FecHorIni[1];
-                        var end = FecHorFin[0] + ' ' + FecHorFin[1];
-                        $.ajax({
-                            url: 'Turnos/DropTurno.php',
-                            data: 'start=' + start + '&end=' + end + '&id=' + event.id,
-                            type: "POST",
-                            success: function(json) {
-                                mensaje('info', json, 2000)
-                                mensaje('info', "Evento actualizado correctamente...", 2000)
-                            }
-                        })
-
-                    },
+                    droppable: false, // this allows things to be dropped onto the calendar !!!
+//                    eventDrop: function(event) {
+//
+//                        var FecHorIni = fechaHora(event.start);
+//                        var FecHorFin = fechaHora(event.end);
+//                        var start = FecHorIni[0] + ' ' + FecHorIni[1];
+//                        var end = FecHorFin[0] + ' ' + FecHorFin[1];
+//
+//                        $.ajax({
+//                            url: 'Turnos/DropTurno.php',
+//                            data: 'start=' + start + '&end=' + end + '&id=' + event.id,
+//                            type: "POST",
+//                            success: function(json) {
+//                                console.log(json);
+//                                mensaje('info', "Evento actualizado correctamente...", 2000)
+//                            }
+//                        })
+//                    },
+//                    eventResize: function(event) {
+//                        var FecHorIni = fechaHora(event.start);
+//                        var FecHorFin = fechaHora(event.end);
+//                        var start = FecHorIni[0] + ' ' + FecHorIni[1];
+//                        var end = FecHorFin[0] + ' ' + FecHorFin[1];
+//                        $.ajax({
+//                            url: 'Turnos/DropTurno.php',
+//                            data: 'start=' + start + '&end=' + end + '&id=' + event.id,
+//                            type: "POST",
+//                            success: function(json) {
+//                                mensaje('info', json, 2000)
+//                                mensaje('info', "Evento actualizado correctamente...", 2000)
+//                            }
+//                        })
+//
+//                    },
                     select: function(start, end, allDay) {
+                        if ($("#id_turno").val() != "") {
+                            $('#calendar').fullCalendar('removeEvents', 99)
+                        }
                         var FecHorIni = fechaHora(start);
                         var FecHorFin = fechaHora(end);
-                        $('#ModalEvento').modal('show');
-                        //Se utilizo la funcino fechaHora() para ajustar los horarios con los controles del formulario.
-                        $('#FecTurno').val(FecHorIni[0]);
-                        $('#HorTurnoIni').val(FecHorIni[1]);
-                        $('#HorTurnoFin').val(FecHorFin[1]); //Hora de finalizacion por defecto.                            
+                        var title = 'Su Turno';
+                        var eventData;
+                        eventData = {
+                            id: 99,
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                        $('#calendar').fullCalendar('unselect');
+                        $("#id_turno").val('99');
+                        $("#fecha_hora").val(start);
+                        $("#btn_guardar").removeAttr("disabled");
+
+
+
+
+
                     },
                     eventClick: function(event) {
-                        window.location="sacar_turno/RegistroDeTurno"
+
+
+                        // window.location = "sacar_turno/RegistroDeTurno"
 //                        limpiaEventoDetalle;
 //                        $.ajax({
 //                            type: "POST",
@@ -117,27 +135,30 @@
 //                        $('#ModalEventoShow').modal('show');
                     },
                     eventSources:
-                            [
-                                {
-                                    url: 'Turnos/fullcalendar/php/get-events.php',
-                                    type: 'POST',
-                                    data: {
-                                        start: inical,
-                                        end: fincal,
-                                        timezone: 'America/Argentina/Buenos_Aires'
-                                    },
-                                    error: function() {
-                                        mensaje('alert', "Error mientras se cargaban los turnos...", 2000)
-                                    }
+                            {
+                                url: 'fullcalendar/get_events_db',
+                                type: 'POST',
+                                data: {
+                                    start: inical,
+                                    end: fincal,
+                                    timezone: 'America/Argentina/Buenos_Aires',
+                                    id: '<?= $id; ?>'
+                                },
+                                error: function() {
+                                    alert('Error al carar las fuentes de datos.')
+                                    //mensaje('alert', "Error mientras se cargaban los turnos...", 2000)
                                 }
-                                // Posibilidad de cargar otras fuentes de eventos...
-                            ]
+                            }
+                    // Posibilidad de cargar otras fuentes de eventos...
+
+
                 });
             }
             ;
             $(document).ready(function() {
                 renderCalendar();
             });
+
         </script>
         <style>
 
@@ -189,21 +210,62 @@
                     </div>
                     <div class="col-md-6">
                         <div style="float:right;">
-                            <?= form_button('btn_cancelar', 'Volver', 'class="btn btn-lg btn-danger" onclick="window.history.back(-1)"')
-                            ?>
-                            <?= form_button('btn_cancelar', 'Cancelar', 'class="btn btn-lg btn-danger" onclick="window.history.back(-1)"')
-                            ?>
-                            <?=
-                            form_button([
-                                'content' => 'Aceptar',
-                                'type' => 'submit',
-                                'class' => 'btn btn-lg btn-primary'
-                            ])
-                            ?>
+                            <input type="button"  class="btn btn-lg btn-danger"  value="Volver"   id="btn_volver" />
+                            <input type="button"  class="btn btn-lg btn-danger"  value="Cancelar" id="btn_cancelar"/>
+                            <input type="button"  class="btn btn-lg btn-primary" value="Aceptar"  id="btn_guardar" disabled/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <form action="http://localhost/yps/index.php/sacar_turno" method="post"       
+              accept-charset="utf-8" role="form" name="frm_grilla" id="frm_grilla" >
+            <input type="hidden"  id="estado" name="estado"/>
+            <input type="hidden"  id="fecha_hora" name="fecha_hora"/>
+            <input type="hidden"  id="id_turno" name="id_turno"/>
+
+        </form>
+
+
+        <script>
+            $(document).ready(function() {
+
+
+
+                $("#btn_guardar").click(function() {
+                    estado(3);
+                    $("#frm_grilla").submit();
+                });
+
+                $("#btn_volver").click(function() {
+                    estado(0);
+                    $("#frm_grilla").submit();
+                });
+
+                $("#btn_cancelar").click(function() {
+                    estado(0);
+                    window.location = '../../index.php';
+                });
+            });
+            function estado(estado) {
+                $("#estado").val(estado);
+            }
+            function fechaHora(start) {
+//    alert(start);
+                var newDate = new Date(start);
+//    alert(newDate);
+
+                var dia = ("0" + newDate.getDate()).slice(-2);
+                var mes = ("0" + (newDate.getMonth() + 1)).slice(-2);
+                var anio = newDate.getFullYear()
+                var fecha = anio + '-' + mes + '-' + dia;
+                var hora = ((newDate.getHours() < 10 ? '0' : '') + newDate.getHours()).slice(-2);
+                var minutos = ((newDate.getMinutes() < 10 ? '0' : '') + newDate.getMinutes()).slice(-2);
+                var segundos = ((newDate.getSeconds() < 10 ? '0' : '') + newDate.getSeconds()).slice(-2);
+                var hms = hora + ':' + minutos + ':' + segundos;
+                return new Array(fecha, hms);
+            }
+            ;
+        </script>
     </body>
 </html>

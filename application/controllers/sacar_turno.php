@@ -8,29 +8,28 @@ if (!defined('BASEPATH'))
 /* Heredamos de la clase CI_Controller */
 
 class Sacar_turno extends CI_Controller {
-    private $iturno;
+
 
     function __construct()
     {
         parent::__construct();
-        $this->load->model('turno');
-        $this->iturno = new turno;
+        $this->load->model('turno'); 
     }
 
     function index()
     {
         $estado = $this->input->post('estado');
+
         switch ($estado)
         {
             case "0"://Inicia CU sacar turno.
                 $this->frm_profesionales();
                 break;
             case "1"://Ya selecciono el profesional.                
-                $this->frm_fechas();                
+                $this->frm_fechas();
                 break;
-            case "2"://Ya selecciono la fecha del turno.
-                $fecha_turno = $this->input->post('frm_profesioanels');
-                $this->frm_grilla($fecha_turno);
+            case "2"://Ya selecciono la fecha del turno.                            
+                $this->frm_grilla();
                 break;
             case "3"://Ya selecciono el turno.
                 $this->frm_registro();
@@ -53,7 +52,6 @@ class Sacar_turno extends CI_Controller {
         $listado = null;
         $listado['data_vista'] = $data_vista;
         $this->load->view('sacar_turno/FormularioProfesionales', $listado);
-        
     }
 
     private function addprefijo($prefijo, $arreglo)
@@ -69,34 +67,58 @@ class Sacar_turno extends CI_Controller {
 
     public function frm_fechas()
     {
-        $pro_turno = $this->input->post('cbo_profesional');
-        $this->iturno->set_profesional($pro_turno);
-        echo "Fechas - Turno Instanciado: <br><pre>";print_r($this->iturno);
+        $this->session->userdate['turno_profesional'] = $this->input->post('cbo_profesional');                
         $this->load->view('sacar_turno/FormularioFechas');
     }
 
-    public function frm_grilla($fecha)
+    public function frm_grilla()
     {
-        $fecha_turno = $this->input->post('input_fecha_turno');        
+        $fecha_turno = $this->input->post('input_fecha_turno');
         $this->load->model('turnos', 'cat_turnos');
-        $todos_los_turnos = $this->cat_turnos->obtener_turnos();        
-        echo "Grilla -  Turno Instanciado: <br><pre>";print_r($this->iturno);exit();
-        $datos = ['turnos'=> $todos_los_turnos, 'fecha' => $fecha];
+        $todos_los_turnos = $this->cat_turnos->obtener_turnos();
+        $datos = [
+            'turnos' => $todos_los_turnos, 
+            'fecha' => $fecha_turno, 
+            'id' => $this->session->userdata('user_id')
+                ];
         $this->load->view('sacar_turno/FormularioGrillaDeTurnos', $datos);
     }
-        
-    public function frm_registro($fecha_hora)
+
+    public function frm_registro()
     {
-        $fecha_hora_turno = $fecha_hora;
-        $this->iturno->set_fecha_hora($fecha_hora_turno);
+        $this->session->userdata['turno_profesional']=50;//Simulacion de usuario logoneado nro 2.
+        $this->session->userdata['user_id']=2;//Simulacion de usuario logoneado nro 2.
+//        echo "<pre>";print_r($this->session->userdata);
         
-        $os_turno = $this->paciente->ultima_obra_social();
-        
-        $this->load->model('obras_sociales', 'ooss');
-        $obras_sociales = $this->ooss->listar_obras_sociales();
-           
-       echo "<pre>";print_r($this->iturno);exit();
-        $this->load->view('sacar_turno/FormularioRegistroDeTurnos', $todos_los_turnos);
+        $this->load->model('Obras_Sociales', 'cat_obrassociales');
+        $this->load->model('turnos', 'cat_turnos');//Carga Modelo
+        $this->load->model('Profesionales', 'cat_profesionales');
+        $this->load->model('Pacientes', 'cat_pacientes');
+        $this->cat_turnos->listar_turnos();//Carga Catalogo.
+        $_POST['fecha_hora'] = '1982-11-06T08:16:00';//
+        $fecha_hora = $this->input->post('fecha_hora');
+//        echo "<pre>";print_r($fecha_hora);echo "<br>";
+        $obras_sociales = $this->cat_obrassociales->listar_obras_sociales();
+//        echo "<pre>";print_r($obras_sociales);echo "<br>";
+        $idObraSocial = $this->cat_turnos->ultima_obrasocial_utilizada($this->session->userdata['user_id']);
+//        echo "Ultima Obra Social Utilizada: <pre>";print_r($idObraSocial);echo "<br>";
+        //$obraSocial= $this->cat_obrassociales->buscar_obrasocial($id_ObraSocial);
+        $profesional = $this->cat_profesionales->buscar_profesional($this->session->userdata['turno_profesional']);
+//        echo "<pre>";print_r($profesional);echo "<br>";
+//        echo "ID_PACIENTE: <pre>";print_r($this->session->userdata['user_id']);echo "<br>";
+        $paciente = $this->cat_pacientes->buscar_paciente($this->session->userdata['user_id']);
+        //echo "<pre>";print_r($paciente);exit();
+        $datos = ['turno' => [
+        'profesional' => $profesional,
+        'paciente' => $paciente,
+        'obrasociales' => $obras_sociales,
+        'id_ultima_obra_social' => $idObraSocial,
+        'fecha_turno' => $fecha_hora        
+        ]];
+        //echo "<pre>";print_r($datos);exit();
+
+
+        $this->load->view('sacar_turno/FormularioRegistroDeTurnos', $datos);
     }
 
 }
