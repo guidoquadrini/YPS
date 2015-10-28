@@ -40,7 +40,7 @@ class Acl {
         $this->user_permissions = array_merge($this->role_permissions(), $this->user_permissions());
 
         //Setear los permisos del sitio
-        $this->user_site_permissions = $this->_permissions('acl_site_permissions', 'public');
+       // $this->user_site_permissions = $this->_permissions('acl_site_permissions', 'public');
     }
 
     public function __get($name) {
@@ -74,7 +74,7 @@ class Acl {
         if ($this->user_role_id > 0) {
             $permissions = $this->CI->db
                             ->from($this->tables['role_perms'] . ' r')
-                            ->select(['r.permission', 'r.value', 'p.name', 'p.title'])
+                            ->select(['r.permission', 'r.value', 'p.controladora', 'p.vista', 'p.title'])
                             ->join($this->tables['perms'] . ' p', 'r.permission = p.id')
                             ->where(['r.role' => $this->user_role_id])
                             ->get()->result();
@@ -84,12 +84,12 @@ class Acl {
 
                 foreach ($permissions as $permission) {
 
-                    if (trim($permission->name) == '') {
+                    if (trim($permission->controladora) == '') {
                         continue;
                     }
 
-                    $data[$permission->name] = [
-                        'permission' => $permission->name,
+                    $data[$permission->controladora] = [
+                        'permission' => $permission->controladora . "/" . $permission->vista,
                         'title' => $permission->title,
                         'value' => $permission->value == 1 ? TRUE : FALSE,
                         'inherited' => TRUE,
@@ -101,7 +101,7 @@ class Acl {
                 }
             }
         }
-        return $this->_permission('public');
+        return $this->_permission('user','login');
     }
 
     public function user_permissions() {
@@ -114,7 +114,7 @@ class Acl {
             if (sizeof($ids) > 0) {
                 $permissions = $this->CI->db
                                 ->from($this->tables['user_perms'] . ' u')
-                                ->select(['u.permission', 'u.value', 'p.name', 'p.title'])
+                                ->select(['u.permission', 'u.value', 'p.controladora', 'p.vista', 'p.title'])
                                 ->join($this->tables['perms'] . ' p', 'u.permission = p.id')
                                 ->where(['u.user' => $this->user_id])
                                 ->where_in('u.permission', $ids)
@@ -123,11 +123,11 @@ class Acl {
                 if (sizeof($permissions) > 0) {
 
                     foreach ($permissions as $permission) {
-                        if (trim($permission->name) == '')
+                        if (trim($permission->controladora) == '')
                         {continue;}
 
                         $data[$permission->name] = [
-                            'permission' => $permission->name,
+                            'permission' => $permission->controladora . "/" . $permission->vista,
                             'title' => $permission->title,
                             'value' => $permission->value == 1 ? TRUE : FALSE,
                             'inherited' => FALSE,
@@ -167,15 +167,16 @@ class Acl {
         return $result;
     }
 
-    private function _permission($name) {
-        $name = trim($name);
-        if (!empty($name)) {
-            $permission = $this->CI->db->get_where($this->tables['perms'], ['name' => $name])->row();
+    private function _permission($controller, $view) {
+        $controller = trim($controller);
+        $view = trim($view);
+        if (!empty($controller) && !empty($view)) {
+            $permission = $this->CI->db->get_where($this->tables['perms'], ['controladora' => $controller, 'vista'=>$view])->row();
 
             if (sizeof($permission) > 0) {
-
+                
                 return [$permission->name = [
-                'permission' => $permission->name,
+                'permission' => $permission->controladora . "/" . $permission->vista,
                 'title' => $permission->title,
                 'value' => TRUE,
                 'inherited' => TRUE,

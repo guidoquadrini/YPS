@@ -1,10 +1,10 @@
-<?php $img = base_url() . 'assets/images/views/login/'; ?>
-<?php $css = base_url() . 'assets/styles/views/login/'; ?>
-<?php $js = base_url() . 'assets/scripts/views/login/'; ?>
-<?php $base = base_url() . 'index.php/login/'; ?>
+<?php $img = base_url('assets/images/views/login/'); ?>
+<?php $css = base_url('assets/styles/views/login/'); ?>
+<?php $js = base_url('assets/scripts/views/login/'); ?>
+<?php $base = base_url('/login/'); ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,10 +16,10 @@
         <title>Signin Template for Bootstrap</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="<?php echo $css . 'bootstrap.min.css'; ?>" rel="stylesheet">    
+        <link href="<?php echo $css . '/bootstrap.min.css'; ?>" rel="stylesheet">    
         <!-- Custom styles for this template -->
-        <link href="<?php echo $css . 'signin.css'; ?>" rel="stylesheet">
-        <link rel="stylesheet" href="<?php echo $css . 'login.css'; ?>" type="text/css" media="screen" />
+        <link href="<?php echo $css . '/signin.css'; ?>" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo $css . '/login.css'; ?>" type="text/css" media="screen" />
         <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -27,15 +27,15 @@
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <!-- Librerias JavaScript -->
-        <script type="text/javascript" src="<?php echo $js . 'instanciaAjax.js'; ?>"></script>
-        <script type="text/javascript" src="<?php echo $js . 'funcionesJS.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo $js . '/instanciaAjax.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo $js . '/funcionesJS.js'; ?>"></script>
 
 
     </head>
     <body>
         <div class="pagina">
             <div class="header">
-                <div class="logo"><img src="<?php echo $img . 'yps_logo_iso.jpg'; ?>"/></div>
+                <div class="logo"><img src="<?php echo $img . '/yps_logo_iso.jpg'; ?>"/></div>
 
                 <div class="publi">Publicidad Propia</div>
                 <div class="titulo">
@@ -48,7 +48,12 @@
             </div>
             <div class="footer">    
                 <div class="container">
-                    <form action="http://localhost/yps/index.php/users/login" method="post" accept-charset="utf-8" id='login_form' class="form-signin" style="background:white; margin-top: 25px; box-shadow: 0em 0em 10em black;" role="form">
+                    <form action="<?php echo base_url('users/login');?>" 
+                          method="post" accept-charset="utf-8" 
+                          id='login_form' class="form-signin" 
+                          style="background:white; margin-top: 25px; 
+                            box-shadow: 0em 0em 10em black;" 
+                          role="form">
                         <div style="display:none">
                             <input type="hidden" name="login" value="1" />
                         </div><fieldset>
@@ -102,10 +107,10 @@
                     </form>
                 </div> <!-- /container -->    
                 <div class="box-error">
-                    <img src="<?php echo $img . 'closebox.png'; ?>" onclick="toggle_mensaje()" alt="Cerrar Ventana" Title="Boton Cerrar Mensaje"/><span id="mensaje"><div class="error"></div><?php echo validation_errors(); ?></span>
+                    <img src="<?php echo $img . '/closebox.png'; ?>" onclick="toggle_mensaje()" alt="Cerrar Ventana" Title="Boton Cerrar Mensaje"/><span id="mensaje"><div class="error"></div><?php echo validation_errors(); ?></span>
                 </div>
             </div>
-            <div class="copyright">Todos los derechos reservados a <a href="#"><img src="<?php echo $img . 'logo_copy.png'; ?>" style="vertical-align: middle; height: 30px;" alt="Q-Informatica" title="Todos los derechos reservados a Q-Informatica"/></a></div>
+            <div class="copyright">Todos los derechos reservados a <a href="#"><img src="<?php echo $img . '/logo_copy.png'; ?>" style="vertical-align: middle; height: 30px;" alt="Q-Informatica" title="Todos los derechos reservados a Q-Informatica"/></a></div>
         </div>
     </body>
 </html>

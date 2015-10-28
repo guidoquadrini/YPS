@@ -9,34 +9,46 @@ class Menu extends CI_Model {
             
 	}
         
-        
+        public function hello(){    
+            return 'Hello';
+        }
         public function get_tree($rol = 'paciente'){
             $arreglo= [];
             $hijo= [];
             $j=0;
             $i=0;            
-            $padres=$this->obtenerMenu('', ['nivel'=>0], 'object');
+            $padres = $this->obtenerMenu('', ['padre'=>0,'estado'=>1], 'object');
             foreach ($padres as $row){
-            if(!in_array($rol, $piezas = explode(",", $row->tabla))){continue;}
-                $arreglo[$i]['idmenu']=$row->idmenu;
-                $arreglo[$i]['nombre']=$row->nombre;
-                $arreglo[$i]['descripcion']=$row->descripcion;
-                $arreglo[$i]['habilitado']=$row->habilitado;
-                $arreglo[$i]['url']=$row->url;
-                $arreglo[$i]['tabla']=$row->tabla;
-                $arreglo[$i]['nivel']=$row->nivel;
-                $arreglo[$i]['onclick']=$row->onclick;
-                $arreglo[$i]['hijos']=$this->obtenerMenu('',['nivel'=>$row->idmenu],'object');
+//Si el rol no esta dentro del arreglo de tabla continua.            
+//if(!in_array($rol, $piezas = explode(",", $row->tabla))){continue;}
+                $arreglo[$j]['idmenu']=$row->idmenu;
+                $arreglo[$j]['nombre']=$row->nombre;
+                $arreglo[$j]['descripcion']=$row->descripcion;
+                $arreglo[$j]['tipo']=$row->tipo;
+                $arreglo[$j]['icon']=$row->icon;
+                $arreglo[$j]['url']=$row->url;
+                $arreglo[$j]['class']=$row->class;
+                $arreglo[$j]['onclick']=$row->onclick;
+                $arreglo[$j]['id_permiso']=$row->id_permiso;
+                $arreglo[$j]['padre']=$row->padre;;                
+                $arreglo[$j]['orden']=$row->orden;
+                $arreglo[$j]['estado']=$row->estado;
+                $arreglo[$i]['hijos']=$this->obtenerMenu('',['padre'=>$row->idmenu,'estado'=>1],'object');
                 foreach ($arreglo[$i]['hijos'] as $rowChild){
-            if(!in_array($rol, $piezas = explode(",", $rowChild->tabla))){continue;}
+            //if(!in_array($rol, $piezas = explode(",", $rowChild->tabla))){continue;}
                 $hijo[$j]['idmenu']=$rowChild->idmenu;
                 $hijo[$j]['nombre']=$rowChild->nombre;
                 $hijo[$j]['descripcion']=$rowChild->descripcion;
-                $hijo[$j]['habilitado']=$rowChild->habilitado;
+                $hijo[$j]['tipo']=$rowChild->tipo;
+                $hijo[$j]['icon']=$rowChild->icon;
                 $hijo[$j]['url']=$rowChild->url;
-                $hijo[$j]['tabla']=$rowChild->tabla;
-                $hijo[$j]['nivel']=$rowChild->nivel;
-                $hijo[$j]['onclick']=$rowChild->onclick;                
+                $hijo[$j]['class']=$rowChild->class;
+                $hijo[$j]['onclick']=$rowChild->onclick;
+                $hijo[$j]['id_permiso']=$rowChild->id_permiso;
+                $hijo[$j]['padre']=$rowChild->padre;;                
+                $hijo[$j]['orden']=$rowChild->orden;
+                $hijo[$j]['estado']=$rowChild->estado;
+                
                 $j++;
             }
                 $arreglo[$i]['hijos']=$hijo;
