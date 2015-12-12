@@ -28,12 +28,12 @@ class Login extends CI_Controller {
                     $this->load->model('/login/form_model','candidato');
                     $acceso = $this->candidato->login($user1,$clave1);   
                     if ($acceso != FALSE){                        
-                        $this->load->library('user',['id' => $acceso[0]->id]);
-                        $this->session->set_userdata('user_id', $this->user->id);
-                        $this->session->set_userdata('user_user', $this->user->user);
-                        $this->session->set_userdata('user_name', $this->user->name);
-                        $this->session->set_userdata('user_email', $this->user->email);
-                        $this->session->set_userdata('user_rol', $this->user->rol);
+                        $this->load->library('usuario',['id' => $acceso[0]->id]);
+                        $this->session->set_userdata('user_id', $this->usuario->id);
+                        $this->session->set_userdata('user_user', $this->usuario->user);
+                        //$this->session->set_userdata('user_name', $this->usuario->name);
+                        //$this->session->set_userdata('user_email', $this->usuario->email);
+                        $this->session->set_userdata('user_rol', $this->usuario->rol);
                         $this->load->view('login/form_exito');                                     
                     }else{
                             $this->session->set_userdata('error_message', 'Sus credenciales fueron rechazadas.');
@@ -54,14 +54,6 @@ class Login extends CI_Controller {
                 $this->load->view('login/form_view');
             }
         }
-
-//        public function index()
-//	{
-//            $this->load->library('user');
-//            $this->load->library('acl');         
-//            $this->template->render('login/index');
-//            
-//        }
 }
 
 /* End of file login.php */

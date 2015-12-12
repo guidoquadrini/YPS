@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/Acl.php';
 
-class User
+class Usuario
 {
     private $CI;
     private $table = 'users';

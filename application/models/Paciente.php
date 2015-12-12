@@ -4,7 +4,7 @@
  * @version 1.0
  * @created 03-jul-2014 11:39:24 a.m.
  */
-class Paciente extends Usuario {
+class ModelPaciente extends Persona {
 
     public $idPaciente;
     public $IdObraSocial;
@@ -12,19 +12,16 @@ class Paciente extends Usuario {
     public $facebook;
     public $skype;
 
-    function __destruct()
-    {
+    function __destruct() {
         
     }
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->load->model('turno');
     }
 
-    public function cargar_paciente($id = null)
-    {
+    public function cargar_paciente($id = null) {
         parent::__construct(); //Levantar al padre
         $this->cargarUsuario($id); // Cargar Datos del usuario
         // Hacer consulta por datos de matricula y especialidad para el profesional.            

@@ -5,7 +5,7 @@
  * @version 1.0
  * @created 03-jul-2014 10:02:53 a.m.
  */
-class Turno extends CI_Model {
+class ModelTurno extends Q_Model {
 
     public $Estado;
     public $IdObraSocial;
@@ -16,29 +16,26 @@ class Turno extends CI_Model {
     public $PrecioActual;
     public $SobreTurno;
     public $Fecha_Hora;
-public $ci;
-    function __destruct()
-    {
+    public $nombre;
+    public $apellido;
+
+    function __destruct() {
         
     }
 
-    public function __construct()
-    {
-        $this->ci &= get_instance()
+    public function __construct() {
+        // $this->ci &= get_instance();
     }
 
-    public function __destroy()
-    {
+    public function __destroy() {
         
     }
 
-    public function generar_formulario_turno()
-    {
+    public function generar_formulario_turno() {
         
     }
 
-    public function cargar_turno($id)
-    {
+    public function cargar_turno($id) {
         // Hacer consulta por datos de matricula y especialidad para el profesional.            
         $sql = "
             SELECT *
@@ -63,29 +60,18 @@ public $ci;
         //$this->Prestacion       = $row->Prestacion;
     }
 
-    public function generar_resumen()
-    {
+    public function generar_resumen() {
         
     }
 
-    public function registrar_turno()
-    {
+    public function registrar_turno() {
 
-        $this->Estado = 1;
-        $this->IdObraSocial = $this->CI->session->userdate['turno_obra_social'];
-        $this->IdPaciente = '55'; //$this->session->userdate['user_id'];
-        $this->IdProfesional = $this->CI->session->userdate['turno_profesional'];
-        $this->Observaciones = '';
-        $this->PrecioActual = '';
-        $this->SobreTurno = '';
-        $this->Fecha_Hora = $this->CI->session->userdate['turno_fecha_hora'];
-echo "<pre>";print_r($this->Fecha_Hora);echo "<br>";
-$fecha = $this->Fecha_Hora;
-$date = date_create_from_format('d/M/Y:H:i:s', $fecha);
-$date->getTimestamp();
-echo "<pre>";print_r($date);echo "<br>";
-$dateFin = strtotime ( '+13 minute' , strtotime ( $date ) ) ;
-echo "<pre>";print_r($dateFin);exit();
+        $fecha = $this->Fecha_Hora;
+        $date = date_create_from_format('d/M/Y:H:i:s', $fecha);
+//        $date->getTimestamp();
+        
+        $dateFin = strtotime('+13 minute', strtotime($date));
+        
         $sql = "         
 INSERT INTO tuno(IdPaciente, FechaHoraIni, FechaHoraFin, idProfesional, 
 Observaciones, PrecioActual, sobreturno, idobrasocial, estado, 
@@ -93,46 +79,42 @@ AU_usuario, AU_fechahora, AU_accion)
          values($this->IdPaciente, $this->Fecha_Hora, $this->Fecha_Hora, $this->IdProfesional,
              '', '', 0, $this->IdObraSocial, 1);
              ";
+        echo "<pre>";
+        print_r($sql);
+        echo "</pre>";
+        die;
     }
 
-    private function _obra_social()
-    {
+    private function _obra_social() {
         
     }
 
-    public function _turno($turno)
-    {
+    public function _turno($turno) {
         $this->idTurno = $turno;
         return true;
     }
 
-    private function _profesional($pro)
-    {
+    private function _profesional($pro) {
         $this->IdProfesional = $pro;
     }
 
-    private function _fecha_hora($fecha_hora)
-    {
+    private function _fecha_hora($fecha_hora) {
         $this->Fecha_Hora = $fecha_hora;
     }
 
-    public function set_fecha_hora()
-    {
+    public function set_fecha_hora() {
         $this->_fecha_hora($fecha_hora);
     }
 
-    private function _prestacion()
-    {
+    private function _prestacion() {
         
     }
 
-    public function set_profesional($pro)
-    {
+    public function set_profesional($pro) {
         $this->_profesional($pro);
     }
 
-    public function anonimo()
-    {
+    public function anonimo() {
         $this->nombre = "Turno Ocupado";
         $this->apellido = "";
     }

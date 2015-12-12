@@ -1,93 +1,51 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-/* Heredamos de la clase CI_Controller */
-class Usuarios extends CI_Controller {
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
-  function __construct()  {
+class Usuarios extends YPS_Controller {
 
-    parent::__construct();
+    public function login() {
 
-    /* Cargamos la base de datos */
-    $this->load->database();
+        if ($this->input->post('login') == 1) {
+            $this->load->library('form_validation');
+            $rules = [
+                [
+                    'field' => 'user',
+                    'label' => 'lang:yps_general_label_user',
+                    'rules' => 'trim|required|alpha_dash|max_length[30]'
+                ],
+                [
+                    'field' => 'password',
+                    'label' => 'lang:yps_general_label_password',
+                    'rules' => 'required|min_length[4]|max_lenght[8]'
+                ]
+            ];
 
-    /* Cargamos la libreria*/
-    $this->load->library('grocery_crud');
+            $this->form_validation->set_rules($rules);
 
-    /* Añadimos el helper al controlador */
-    $this->load->helper('url');
-  }
-
-  function index()  {
-    /*
-     * Mandamos todo lo que llegue a la funcion
-     * administracion().
-     **/
-    redirect('usuarios/administracion');
-  }
-
-  /*
-   *
-   **/
-  function administracion()  {
-    try{
-
-    /* Creamos el objeto */
-    $crud = new grocery_CRUD();
-
-    /* Seleccionamos el tema */
-    $crud->set_theme('flexigrid');
-
-    /* Seleccionmos el nombre de la tabla de nuestra base de datos*/
-    $crud->set_table('users');
-
-    /* Le asignamos un nombre */
-    $crud->set_subject('Usuarios');
-
-    /* Asignamos el idioma español */
-    $crud->set_language('spanish');
-
-    /* Aqui le decimos a grocery que estos campos son obligatorios */
-    $crud->required_fields(
-      'id',
-      'name',
-      'email',
-      'user',
-      'password',
-      'role'
-    );
-
-    /* Aqui le indicamos que campos deseamos mostrar */
-    $crud->columns(
-      'id',
-      'name',
-      'email',
-      'user',
-      'password',
-      'role',
-      'status',
-      'active',
-      'last_login',
-      'created',
-      'created_at',
-      'modified',
-      'modified_at'
-    );
-
-    /*Definir Ralaciones*/
-    $crud->set_relation('role', 'roles', 'role');
-    
-    
-    
-    /* Generamos la tabla */
-    $output = $crud->render();
-
-    /* La cargamos en la vista situada en
-    /applications/views/productos/administracion.php */
-    $this->load->view('usuarios/administracion', $output);
-
-    }catch(Exception $e){
-      /* Si algo sale mal cachamos el error y lo mostramos */
-      show_error($e->getMessage().' --- '.$e->getTraceAsString());
+            if ($this->form_validation->run() === TRUE) {
+                if ($this->usuario->login(
+                        $this->input->post('user'), 
+                        $this->input->post('password')) === TRUE) {
+                    $this->session->set_userdata('user_id', $this->usuario->id);
+                    redirect();
+                }
+                $this->template->add_message(['error' => $this->usuario->errors()]);
+            }
+        }
+        $this->load->helper('form');
+        $this->load->view('login/form_view');
     }
-  }
+
+    function logout() {
+        if ($this->usuario->is_logged_in()) {
+            $this->session->sess_destroy();
+        }
+        redirect('usuarios/login');
+    }
+
 }
+
+/* End of file usuarios.php */
+/* Location: ./application/controllers/usuarios.php */

@@ -6,7 +6,7 @@ require_once ('prestacion.php');
  * @version 1.0
  * @created 05-jul-2014 06:31:56 p.m.
  */
-class Especialidad
+class ModelEspecialidad
 {
 
 	private $IdEspecialidad;

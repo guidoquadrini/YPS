@@ -1,10 +1,9 @@
 <?php
-
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')){
     exit('No direct script access allowed');
+}
 
 class Template {
-
     protected $CI;
     private $configs;
     private $data;
@@ -17,14 +16,14 @@ class Template {
     private $default_name;
     private $message;
     private $panel;
-
+    private $menu;
+    private $usuario_activo;
+    
+    
     public function __construct() {
         $this->CI = & get_instance();
         $this->CI->load->config('templates');
         $this->configs = $this->CI->config->item('templates');
-
-        /* print_r($this->configs);exit; */
-
         $this->data = [];
         $this->js = [];
         $this->css = [];
@@ -34,6 +33,22 @@ class Template {
         $this->default_id = null;
         $this->default_name = null;
         $this->panel = $this->CI->adminPanel() ? 'b' : 'f';
+        
+        //Carga el Menu segun el Rol
+        if (isset($this->CI->session->userdata['user_id'])){
+            $id_usuario = $this->CI->session->userdata['user_id'];
+            $this->CI->load->library('usuario');
+        $role = $this->CI->usuario->role;
+               
+        $this->CI->load->model('modelmenu', 'menu');
+        $this->menu = $this->CI->menu->get_tree($role);       
+        
+        $this->CI->load->model('Catalogos/usuarios', 'mUsuarios');
+        $oUsuario = $this->CI->mUsuarios->buscarPorId($id_usuario);
+        $this->usuario_activo = $oUsuario;
+                
+        }
+        
     }
 
     public function set($key, $value) {
@@ -53,17 +68,23 @@ class Template {
     public function add_message($message, $type = null) {
         $this->_add_message($message, $type);
     }
-    
-    public function set_flash_message(array $message){
-        if (sizeof($message)>0){
+
+    public function set_flash_message(array $message) {
+        if (sizeof($message) > 0) {
             $this->CI->session->set_flashdata('_message_', $message);
         }
     }
 
-    public function render($view = null) {
+    public function render($view = null, $datosVista = null) {
+        if ($datosVista == null){
+             $datosVista['tituloContenido']="Vista Sin Nombre";
+       $datosVista['descContenido'] = "Vista Sin Descripcion";
+        $datosVista['breadCrumb'] = null;
+       
+        
+        }
         $template = $this->_route();
         $routes = [];
-
 
         if (!empty($view)) {
             if (!is_array($view)) {
@@ -86,10 +107,84 @@ class Template {
 
         $this->_set_asset();
         $this->_set_message();
-        $this->data['_content'] = $routes;
+        $this->data['_AbreviacionIdioma'] = "es";
+        $this->data['_metaData'] = [
+            0 => '<meta charset="utf-8">',
+            1 => '<meta http-equiv="X-UA-Compatible" content="IE=edge">'
+        ];
+        $this->CI->load->config('yps');        
+        $this->data['_tituloAplicacion'] = $this->CI->config->item('yps_appname');
+        $RightSide = $this->CI->load->view("templates/default/RightSide.php",[], true);
+        $Footer = $this->CI->load->view("templates/default/Footer.php",[], true);
+        $menu_str = '<ul class="sidebar-menu">';
+        
+        foreach ($this->menu as $item){
+            
+            switch($item['tipo']){
+                case 'header':
+                    $menu_str .= '<li class="header">'. 
+                    $item['nombre'] . '</li>';
+                    break;            
+                case 'treeview':
+                    $menu_str .= '<li class="' . $item['tipo'] . '">' .
+                    '<a href="' . $item['url'] . '">' .
+                    '<i class="' . $item['icon'] . '"></i> '
+                        . '<span>'. $item['nombre'] .'</span>'
+                        . '<i class="fa fa-angle-left pull-right">&nbsp;</i>'
+                        . '</a>';
+//            
+                    if (!empty($item['hijos'])){
+                        $menu_str .= '<ul class="treeview-menu">';
+                        foreach ($item['hijos'] as $hijo){
+                            $menu_str .= '<li><a href="' . $hijo['url'] . '">'
+                                    . '<i class="' . $hijo['icon'] . '"> </i> '
+                                    . '<span> ' . $hijo['nombre'] . ' </span>'
+                                    . '</a></li>';
+                        }
+                        $menu_str .= '</ul>';
+                    }
+                    $menu_str .= '</li>';
+                    break;
+                default:
+                    
+                    $menu_str .= '<li class="'. $item['class'] .'">'. 
+                    '<a href="' . $item['url'] . '">'
+                    . '<i class="' . $item['icon'] . '"></i>&nbsp;'
+                    . '<span>' . $item['nombre'] . '</span></a></li>';
+                break;
+            }            
+            
+        }
+        $menu_str .= "</ul>";
+        //$_menu= ['menu'=>$menu_str];
+        $datos_usuario = '';
+        //$_usuario_activo['url_photo'] = 'assets/images/templates/default/user2-160x160.jpg';
+//$_usuario_activo['nombre_corto'] = 'Ing. Guido Q.';
+//$_usuario_activo['estado'] = 'Online';
+        $LeftSide = $this->CI->load->view(
+                "templates/default/LeftSide.php",
+                [ '_menu'=>$menu_str,
+                  '_usuario_activo' => $this->usuario_activo
+                ], true);
+        $Header = $this->CI->load->view("templates/default/Header.php",[], true);
+        $this->set('_Componentes', [
+            'Header' => $Header,
+            'LeftSide' => $LeftSide,
+            'Footer' => $Footer,
+            'RightSide' => $RightSide
+        ]);
+        
+        $this->set('_content', $routes);
+        $this->set('_tituloContenido', $datosVista['tituloContenido']);
+        $this->set('_descContenido', $datosVista['descContenido']);
+        $this->set('_breadCrumb', $this->_dondeEstoy($datosVista['breadCrumb']));
         $this->CI->load->view($template, $this->data);
     }
 
+    private function _dondeEstoy($pasos){
+        return '<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li><li class="active">Here</li>';
+    }
+    
     private function _route() {
         $route = 'templates/';
         if (empty($this->name)) {
@@ -259,7 +354,6 @@ class Template {
         $this->data['_success'] = isset($this->message['success']) ? $this->message['success'] : [];
         $this->data['_error'] = isset($this->message['error']) ? $this->message['error'] : [];
         $this->data['_info'] = isset($this->message['info']) ? $this->message['info'] : [];
-        
     }
 
 }

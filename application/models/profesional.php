@@ -10,7 +10,7 @@ require_once ('Usuario.php');
  * @version 1.0
  * @created 03-jul-2014 11:39:28 a.m.
  */
-class Profesional extends Usuario {
+class ModelProfesional extends Persona {
 
     public $idProfesional;
     public $Matricula;
@@ -18,8 +18,7 @@ class Profesional extends Usuario {
     public $Especialidad;   // Y dejar de llamarlas de esta manera.
     public $observacion_especialidad;
 
-    function __destruct() {
-        
+    function __destruct() {        
     }
 
     public function __construct() {

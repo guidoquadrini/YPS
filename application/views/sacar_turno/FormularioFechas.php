@@ -12,7 +12,7 @@
     <body style="¨position:absolute;">
         <div class="container-fluid">
             <div class="row">
-                <form action="http://localhost/yps/index.php/sacar_turno" method="post"       
+                <form action="http://yps/sacar_turno" method="post"       
                       accept-charset="utf-8" class="form-signin" 
                       style="background:white; margin-top: 25px; box-shadow: 0em 0em 10em black;
                       width:350px; margin: 50px auto; padding:20px;" 
